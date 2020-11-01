@@ -1,0 +1,65 @@
+html
+    background: $COLOR_BACKGROUND
+
+body
+    background: $COLOR_BACKGROUND
+    font-family: $FONT_FAMILY
+    font-size: $FONT_SIZE
+    color: $COLOR_TEXT
+
+    &.dark
+        filter: invert(.9) hue-rotate(192deg) brightness(1.3) contrast(1.4)
+
+        pre
+            color: #000
+            background-color: #e4e8ed
+        .hljs-comment, .hljs-quote
+            color: #bfbfbf
+            font-style: italic
+
+a
+    color: $COLOR_LINK
+    text-decoration: none
+
+    &:hover
+        text-decoration: underline
+
+code, pre
+    font-family: $FONT_FAMILY_MONO
+    padding: 0.2em 0.4em
+    margin: 0
+    border-radius: 6px
+    font-size: $FONT_SIZE_MONO
+
+code
+    color: #000
+    background-color: #d2d5da
+
+pre
+    padding: 10px
+    color: #fff
+    background-color: $COLOR_CODE_BACKGROUND
+
+    code
+        padding: 0
+        font-size: 100%
+        color: inherit
+        background-color: transparent
+
+.tsd-typography
+    line-height: $LINE_HEIGHT
+
+    ul
+        list-style: square
+        padding: 0 0 0 20px
+        margin: 0
+
+    h4, h5, h6
+        font-size: 1em
+        margin: 0
+
+    h5, h6
+        font-weight: normal
+
+    p, ul, ol
+        margin: 1em 0

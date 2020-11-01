@@ -1,0 +1,54 @@
+name: Buile Theme and Create Release
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build themes
+      run: npm run build
+      
+    - name: Zip artifacts
+      run: |
+        cd bin
+        zip -r themes-artifact *
+        mv themes-artifact.zip ../
+        cd ..
+
+    - name: Bump version and push tag
+      id: versioning
+      uses: anothrNick/github-tag-action@1.17.2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        WITH_V: false
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.versioning.outputs.tag }}
+        release_name: ${{ steps.versioning.outputs.tag }}
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Asset
+      id: upload-release-asset 
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./themes-artifact.zip
+        asset_name: themes-artifact.zip
+        asset_content_type: application/zip
